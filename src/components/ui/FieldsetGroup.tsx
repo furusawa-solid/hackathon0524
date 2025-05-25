@@ -1,3 +1,4 @@
+import { Fieldset, Legend } from '@headlessui/react';
 import type React from 'react';
 
 type FieldsetGroupProps = {
@@ -14,15 +15,15 @@ export const FieldsetGroup = ({
   legendClassName = '',
 }: FieldsetGroupProps) => {
   return (
-    <fieldset
+    <Fieldset
       className={`rounded-md border border-g px-3 pt-1 pb-3 ${className}`}
     >
-      <legend
+      <Legend
         className={`px 1nt-medium textextssm textextssm te ${legendClassName}`}
       >
         {legend}
-      </legend>
+      </Legend>
       {children}
-    </fieldset>
+    </Fieldset>
   );
 };

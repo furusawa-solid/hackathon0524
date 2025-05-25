@@ -1,134 +1,43 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
 import './App.css';
-import { Field, Label, Switch, Textarea } from '@headlessui/react';
-import { CodeLabelWithButton } from './components/ui/CodeLabelWithButton';
-import { FieldsetGroup } from './components/ui/FieldsetGroup';
-import { Heading } from './components/ui/Heading';
-import { HowToUse } from './components/ui/HowToUse';
-import { IgnoreLinePrefixForm } from './features/dialogueCounter/IgnoreLinePrefixForm';
-import { IgnoreStringForm } from './features/dialogueCounter/IgnoreStringForm';
-import { useIgnoreLinePrefixStore } from './stores/ignoreLinePrefixes';
-import { useIgnoreStringStore } from './stores/ignoreStrings';
-import { excludeIgnoreString } from './utils/string';
-import { useWarnIfUnsavedChanges } from './utils/useWarnIfUnsavedChanges';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { OrbitControls } from '@react-three/drei';
+import { useState } from 'react';
+import { DogSphere } from './components/ui/DogSphere';
+import { IconButton } from './components/ui/IconButton';
+import { Sidebar } from './components/ui/Sidebar';
+import { SpaceBackground } from './components/ui/SpaceBackground';
+import { useDogSphereStore } from './stores/dogSpheres';
 
 const App = () => {
-  // const { ignoreStrings, removeIgnoreString } = useIgnoreStringStore();
-  // const { ignoreLinePrefixes, removeIgnoreLinePrefix } =
-  //   useIgnoreLinePrefixStore();
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const { dogSpheres } = useDogSphereStore();
 
-  // const [isIgnoreSpace, setIsIgnoreSpace] = useState<boolean>(false);
-  // const [isIgnoreLineBreak, setIsIgnoreLineBreak] = useState<boolean>(false);
-  // const [text, setText] = useState('');
-  // const [textCount, setTextCount] = useState(
-  //   excludeIgnoreString(
-  //     text,
-  //     ignoreStrings,
-  //     ignoreLinePrefixes,
-  //     isIgnoreSpace,
-  //     isIgnoreLineBreak,
-  //   ).length,
-  // );
+  return (
+    <div className="h-screen w-full">
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <IconButton
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        icon={faBars}
+        className="absolute top-5 left-5 z-1 bg-transparent px-2 pb-1"
+      />
 
-  // useEffect(() => {
-  //   setTextCount(
-  //     excludeIgnoreString(
-  //       text,
-  //       ignoreStrings,
-  //       ignoreLinePrefixes,
-  //       isIgnoreSpace,
-  //       isIgnoreLineBreak,
-  //     ).length,
-  //   );
-  // }, [
-  //   text,
-  //   isIgnoreSpace,
-  //   isIgnoreLineBreak,
-  //   ignoreStrings,
-  //   ignoreLinePrefixes,
-  // ]);
-
-  // useWarnIfUnsavedChanges(text.length > 0);
-
-  // return (
-  //   <div className="flex flex-col justify-start gap-y-3 p-4">
-  //     <Heading level={1}>台詞カウンター</Heading>
-  //     <HowToUse />
-  //     <FieldsetGroup
-  //       legend="特殊文字のカウント設定"
-  //       className="flex flex-col gap-x-3"
-  //     >
-  //       <Field>
-  //         <Label> 空白をカウントしない </Label>
-  //         <Switch
-  //           checked={isIgnoreSpace}
-  //           onChange={setIsIgnoreSpace}
-  //           name="terms-of-service"
-  //           className="group inline-flex h-6 w-11 items-center rounded-full bg-neutral-600 transition data-checked:bg-teal-600"
-  //         >
-  //           <span className="size-4 translate-x-1 rounded-full bg-white transition group-data-checked:translate-x-6" />
-  //         </Switch>
-  //       </Field>
-  //       <Field>
-  //         <Label> 改行をカウントしない </Label>
-  //         <Switch
-  //           checked={isIgnoreLineBreak}
-  //           onChange={setIsIgnoreLineBreak}
-  //           name="terms-of-service"
-  //           className="group inline-flex h-6 w-11 items-center rounded-full bg-neutral-600 transition data-checked:bg-teal-600"
-  //         >
-  //           <span className="size-4 translate-x-1 rounded-full bg-white transition group-data-checked:translate-x-6" />
-  //         </Switch>
-  //       </Field>
-  //     </FieldsetGroup>
-  //     <FieldsetGroup legend="カウントしない文字">
-  //       <ul className="flex flex-col gap-y-2">
-  //         {ignoreStrings.map(({ id, ignoreString }) => (
-  //           <li key={id} className="flex w-60">
-  //             <CodeLabelWithButton
-  //               codeLabelProps={{ label: ignoreString }}
-  //               buttonProps={{
-  //                 icon: faTrash,
-  //                 onClick: () => removeIgnoreString(id),
-  //                 isDanger: true,
-  //                 className: 'rounded-e-md',
-  //               }}
-  //             />
-  //           </li>
-  //         ))}
-  //       </ul>
-  //       <IgnoreStringForm />
-  //     </FieldsetGroup>
-  //     <FieldsetGroup legend="カウントしない行">
-  //       <ul className="flex flex-col gap-y-2">
-  //         {ignoreLinePrefixes.map(({ id, ignoreLinePrefix }) => (
-  //           <li key={id} className="flex w-60">
-  //             <CodeLabelWithButton
-  //               codeLabelProps={{ label: ignoreLinePrefix }}
-  //               buttonProps={{
-  //                 icon: faTrash,
-  //                 onClick: () => removeIgnoreLinePrefix(id),
-  //                 isDanger: true,
-  //                 className: 'rounded-e-md',
-  //               }}
-  //             />
-  //           </li>
-  //         ))}
-  //       </ul>
-  //       <IgnoreLinePrefixForm />
-  //     </FieldsetGroup>
-  //     <Field className="flex flex-col">
-  //       <Heading level={3}>テキスト（文字数: {textCount}）</Heading>
-  //       <Textarea
-  //         className="h-[32rem] rounded-md border-none bg-neutral-600 p-3 outline-none"
-  //         value={text}
-  //         onChange={(e) => setText(e.target.value)}
-  //         placeholder="Enter text."
-  //       />
-  //     </Field>
-  //   </div>
-  // );
+      <Canvas
+        className="absolute top-0 left-0 h-full w-full"
+        camera={{ position: [0, 0, 6] }}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <SpaceBackground />
+        {dogSpheres.map((sphere) => {
+          return (
+            <DogSphere key={sphere.id} {...sphere} position={sphere.position} />
+          );
+        })}
+        <OrbitControls />
+      </Canvas>
+    </div>
+  );
 };
 
 export default App;
