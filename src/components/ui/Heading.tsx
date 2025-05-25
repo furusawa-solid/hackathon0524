@@ -1,7 +1,7 @@
-import type { JSX } from 'react';
+import type { ElementType, ReactNode } from 'react';
 
 type HeadingProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
 };
@@ -11,7 +11,7 @@ export const Heading = ({
   children,
   className = '',
 }: HeadingProps) => {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag: ElementType = `h${level}`;
   const baseStyles = 'font-bold tracking-tight';
 
   const sizeMap = {
