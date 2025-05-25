@@ -1,5 +1,5 @@
 import { Button } from '@headlessui/react';
-import { DogSphereForm } from '../../features/dialogueCounter/DogSphereForm';
+import { DogSphereForm } from '../../features/dogSphere/DogSphereForm';
 
 export type SidebarProps = {
   isOpen: boolean;
