@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { FieldsetGroup } from '../../components/ui/FieldsetGroup';
 import { IconButton } from '../../components/ui/IconButton';
 import {
+  DOG_SPHERE_MAX_SIZE,
+  DOG_SPHERE_MIN_SIZE,
   type DogSphereForm as DogSphereFormType,
   dogSphereFormSchema,
 } from '../../schemas/dogSphere';
@@ -24,7 +26,7 @@ export const DogSphereForm = () => {
     resolver: zodResolver(dogSphereFormSchema),
     defaultValues: {
       color: '#ffcc00',
-      size: 1.2,
+      size: 4,
       imageUrl: url,
     },
   });
@@ -62,8 +64,8 @@ export const DogSphereForm = () => {
           <Input
             {...register('size', { valueAsNumber: true })}
             type="range"
-            min={0.5}
-            max={3}
+            min={DOG_SPHERE_MIN_SIZE}
+            max={DOG_SPHERE_MAX_SIZE}
             step={0.1}
           />
           {errors.size && <p className="error-text">{errors.size.message}</p>}

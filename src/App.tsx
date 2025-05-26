@@ -26,14 +26,12 @@ const App = () => {
         className="absolute top-0 left-0 h-full w-full"
         camera={{ position: [0, 0, 6] }}
       >
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={3} />
         <pointLight position={[10, 10, 10]} />
         <SpaceBackground />
-        {dogSpheres.map((sphere) => {
-          return (
-            <DogSphere key={sphere.id} {...sphere} position={sphere.position} />
-          );
-        })}
+        {dogSpheres.map((sphere) => (
+          <DogSphere key={sphere.id} {...sphere} position={sphere.position} />
+        ))}
         <OrbitControls />
       </Canvas>
     </div>
