@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useRandomDogImage = () => {
   const [url, setUrl] = useState<string>('');
@@ -13,9 +13,9 @@ export const useRandomDogImage = () => {
     }
   }, []);
 
-  useState(() => {
+  useEffect(() => {
     fetchDogImage();
-  });
+  }, [fetchDogImage]);
 
   return { url, fetchDogImage };
 };
